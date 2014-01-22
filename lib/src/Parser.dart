@@ -3,13 +3,13 @@ part of parsec;
 abstract class Parser<T> {
 
   bool run(ParseContext ctxt) {
-    try {
+    //try {
       return apply(ctxt);
-    } catch (e) {
+    //} catch (e) {
       //throw asParserException(e, ctxt);
       // TODO exception
-      return false;
-    }
+      //return false;
+    //}
   }
 
   T getReturn(ParseContext ctxt) {
@@ -17,11 +17,11 @@ abstract class Parser<T> {
   }
 
   T parse(String source, {String moduleName: null}) {
-    ParseContext ctxt = new ParseContext(moduleName, source, 0);
+    ParseContext ctxt = new ParseContext(moduleName, source.codeUnits, 0);
     if (!run(ctxt)) {
       //throw new ParserException(ctxt.renderError(), ctxt.module, locator.locate(ctxt.errorIndex()));
     }
-    return getReturn(ctxt);return Parsers.parse(source, followedBy(Parsers.EOF), sourceLocator, moduleName);
+    return getReturn(ctxt);
   }
 
   bool apply(ParseContext ctxt);
