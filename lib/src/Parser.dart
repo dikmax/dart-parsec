@@ -12,6 +12,8 @@ abstract class Parser<T> {
     //}
   }
 
+  Parser<T> operator ^ (String name) => null;
+
   T getReturn(ParseContext ctxt) {
     return ctxt.result as T;
   }
