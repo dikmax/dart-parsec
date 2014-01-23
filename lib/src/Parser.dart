@@ -2,6 +2,10 @@ part of parsec;
 
 abstract class Parser<T> {
 
+  Parser<T> followedBy(Parser parser) {
+
+  }
+
   bool run(ParseContext ctxt) {
     //try {
       return apply(ctxt);
@@ -12,7 +16,7 @@ abstract class Parser<T> {
     //}
   }
 
-  Parser<T> operator ^ (String name) => null;
+  Parser<T> operator ^ (String msg) => new LabeledParser(this, msg);
 
   T getReturn(ParseContext ctxt) {
     return ctxt.result as T;
