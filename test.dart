@@ -28,5 +28,5 @@ class Expression {
 Parser parser = many1(digit()) ^ "digits";
 
 void main() {
-  print(parser.parse("a1234"));
+  print(parser.parse("1234"));
 }

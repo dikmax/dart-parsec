@@ -17,6 +17,14 @@ class ParseContext {
     step = 0;
   }
 
+  ParseContext.copy(ParseContext ctxt) : this.module = ctxt.module, this.source = ctxt.source {
+    this.at = ctxt.at;
+    this.step = ctxt.step;
+    this._end = ctxt._end;
+    this.result = ctxt.result;
+    this._expected = ctxt._expected;
+  }
+
   bool get eof => at == _end;
 
   int get current => source[at];

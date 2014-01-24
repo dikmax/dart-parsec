@@ -6,9 +6,7 @@ abstract class Parser<T> {
 
   Parser([this.name]);
 
-  Parser<T> followedBy(Parser parser) {
-
-  }
+  Parser<T> followedBy(Parser parser) => new FollowedByParser<T, dynamic>(this, parser);
 
   bool run(ParseContext ctxt) {
     //try {
@@ -31,7 +29,7 @@ abstract class Parser<T> {
 
   T parse(String source, {String moduleName: null}) {
     ParseContext ctxt = new ParseContext(moduleName, source.codeUnits, 0);
-    if (!run(ctxt)) {
+    if (!followedBy(eof()).run(ctxt)) {
       throw new Exception(ctxt.errorMessage);
       //throw new ParserException(ctxt.renderError(), ctxt.module, locator.locate(ctxt.errorIndex()));
     }
