@@ -2,6 +2,10 @@ part of parsec;
 
 abstract class Parser<T> {
 
+  String name;
+
+  Parser([this.name]);
+
   Parser<T> followedBy(Parser parser) {
 
   }
@@ -16,7 +20,10 @@ abstract class Parser<T> {
     //}
   }
 
-  Parser<T> operator ^ (String msg) => new LabeledParser(this, msg);
+  Parser<T> operator ^ (String name) {
+    this.name = name;
+    return this;
+  }
 
   T getReturn(ParseContext ctxt) {
     return ctxt.result as T;
@@ -25,10 +32,13 @@ abstract class Parser<T> {
   T parse(String source, {String moduleName: null}) {
     ParseContext ctxt = new ParseContext(moduleName, source.codeUnits, 0);
     if (!run(ctxt)) {
+      throw new Exception(ctxt.errorMessage);
       //throw new ParserException(ctxt.renderError(), ctxt.module, locator.locate(ctxt.errorIndex()));
     }
     return getReturn(ctxt);
   }
 
   bool apply(ParseContext ctxt);
+
+  String toString() => name;
 }
