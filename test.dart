@@ -25,7 +25,7 @@ class Expression {
   Expression(this.operator, this.a, this.b);
 }
 
-Parser parser = many1(digit()) ^ "digits";
+Parser parser = toString(many1(digit()) ^ "digits");
 
 void main() {
   print(parser.parse("1234"));

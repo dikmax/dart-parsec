@@ -1,8 +1,8 @@
 part of parsec;
 
-class ParseContext {
+class ParseContext<S extends Iterable> {
   final String module;
-  final List<int> source;
+  final S source;
 
   int at;
   int step;
@@ -27,7 +27,7 @@ class ParseContext {
 
   bool get eof => at == _end;
 
-  int get current => source[at];
+  int get current => source.elementAt(at);
 
   void next([int n = 1]) {
     at += n;
