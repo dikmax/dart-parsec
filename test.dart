@@ -9,12 +9,16 @@ class Value extends Operand {
   int value;
 
   Value(this.value);
+
+  String toString() => "Value(${value})";
 }
 
 class Operator {
   String operator;
 
   Operator(this.operator);
+
+  String toString() => operator;
 }
 
 class Expression {
@@ -25,8 +29,9 @@ class Expression {
   Expression(this.operator, this.a, this.b);
 }
 
-Parser parser = toString(many1(digit()) ^ "digits");
-
+Parser<Value> value = map(toString(many1(digit()) ^ "digits"), (str) => new Value(int.parse(str)));
+Parser<Operator> op = map(toString(oneOf("+-*/")), (str) => new Operator(str));
 void main() {
-  print(parser.parse("1234"));
+  print(value.parse("1234"));
+  print(op.parse('+'));
 }
