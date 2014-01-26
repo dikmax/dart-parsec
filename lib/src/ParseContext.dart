@@ -46,14 +46,5 @@ class ParseContext<S extends Iterable> {
     _expected.add(name);
   }
 
-  String get errorMessage {
-    if (_expected.length > 1) {
-      return 'Expected ' + _expected.getRange(0, _expected.length - 1).map((i) => i.toString()).join(", ") + ' or '
-        + _expected.last.toString();
-    } else if (_expected.length == 1) {
-      return 'Expected ' + _expected.first.toString();
-    } else {
-      return 'No error';
-    }
-  }
+  String get exception => new ExpectedException(this._expected);
 }
