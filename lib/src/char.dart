@@ -29,8 +29,15 @@ Parser<int> char(c) {
 }
 Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
 
-// TODO binary search
-Parser<int> oneOfList(List<int> chars) => satisfy((char) => chars.contains(char), "[${new String.fromCharCodes(chars)}]");
-Parser<int> oneOf(String chars) => oneOfList(chars.codeUnits);
+Parser<int> oneOf(chars) {
+  if (chars is String) {
+    chars = new List<int>.from(chars.codeUnits);
+  }
+  if (!(chars is List<int>)) {
+    throw new ArgumentError("char accepts only List<int> or String");
+  }
+  chars.sort();
+  return satisfy((char) => binarySearch(chars, char) != -1, "[${new String.fromCharCodes(chars)}]");
+}
 
 Parser<int> satisfy(CharPredicate predicate, String name) => new CharParser(predicate, name);

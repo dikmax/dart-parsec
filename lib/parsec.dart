@@ -1,6 +1,7 @@
 library parsec;
 
 import 'dart:collection';
+import 'package:collection/algorithms.dart';
 
 part 'src/CharList.dart';
 part 'src/ParseContext.dart';

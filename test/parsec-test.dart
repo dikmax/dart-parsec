@@ -44,6 +44,7 @@ void main() {
       CharParser parser = oneOf('abc');
       _testSuccess("should match included char", parser, 'b', 'b'.codeUnits[0]);
       _testException("shouldn't match excluded char", parser, 'd');
+      _testSuccess("should work with List<int>", oneOf(<int>[97, 98, 99]), 'c', 'c'.codeUnits[0]);
     });
     t.group('toString', () {
       _testSuccess("should transfrom int to String", toString(anyChar), 'a', 'a');
