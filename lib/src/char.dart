@@ -10,7 +10,12 @@ Parser<String> toString(Parser parser) => new MapParser(parser, (list) {
   }
 });
 
-Parser<int> digit() => satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
+/// Matches one any char
+Parser<int> anyChar = satisfy((char) => true, 'any char');
+
+Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
+
+// TODO binary search
 Parser<int> oneOfList(List<int> chars) => satisfy((char) => chars.contains(char), "[${new String.fromCharCodes(chars)}]");
 Parser<int> oneOf(String chars) => oneOfList(chars.codeUnits);
 

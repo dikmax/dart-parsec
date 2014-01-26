@@ -31,11 +31,12 @@ class Expression {
   String toString() => "Expression(${a}${operator}${b})";
 }
 
-Parser<Value> value = map(toString(many1(digit()) ^ "digits"), (str) => new Value(int.parse(str)));
+Parser<Value> value = map(toString(many1(digit) ^ "digits"), (str) => new Value(int.parse(str)));
 Parser<Operator> op = map(toString(oneOf("+-*/")), (str) => new Operator(str));
 Parser<Expression> expr = map(value & op & value, (items) => new Expression(items[1], items[0], items[2]));
 
 void main() {
+  print(anyChar.parse("aa"));
   print(value.parse("1234"));
   print(op.parse('+'));
   print(expr.parse("1234+2345a"));

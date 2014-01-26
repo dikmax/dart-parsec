@@ -1,0 +1,52 @@
+library parsecTest;
+
+import 'package:unittest/unittest.dart' as t;
+import '../lib/parsec.dart';
+
+void _testSuccess(String description, Parser parser, data, result) {
+  t.test(description, () {
+    t.expect(parser.parse(data), t.equals(result));
+  });
+}
+void _testException(String description, Parser parser, data) {
+  t.test(description, () {
+    t.expect(() => parser.parse(data), t.throws);
+  });
+}
+
+void main() {
+  t.group('Char parser', () {
+    t.group('anyChar', () {
+      _testException("should match one char", anyChar, '');
+      _testException("should match only one char", anyChar, 'aa');
+      _testSuccess("should match one and only one char", anyChar, 'a', 'a'.codeUnits[0]);
+    });
+    t.group('digit', () {
+      _testSuccess("should match digit", digit, '0', '0'.codeUnits[0]);
+      _testException("shouldn't match letter", digit, 'a');
+    });
+    t.group('oneOf', () {
+      CharParser parser = oneOf('abc');
+      _testSuccess("should match included char", parser, 'b', 'b'.codeUnits[0]);
+      _testException("shouldn't match excluded char", parser, 'd');
+    });
+    t.group('toString', () {
+      _testSuccess("should transfrom int to String", toString(anyChar), 'a', 'a');
+      _testSuccess("should transfrom List<int> to String", toString(many(anyChar)), 'abcde', 'abcde');
+    });
+  });
+  t.group('Parser combinator', () {
+    t.group('many', () {
+      Parser parser = many(anyChar);
+      _testSuccess('should match empty string', parser, '', []);
+      _testSuccess('should match string with one char', parser, 'a', [97]);
+      _testSuccess('should match any number of chars', parser, 'zyxwvut', [122, 121, 120, 119, 118, 117, 116]);
+    });
+    t.group('many1', () {
+      Parser parser = many1(anyChar);
+      _testException("shouldn't match empty string", parser, "");
+      _testSuccess('should match string with one char', parser, 'a', [97]);
+      _testSuccess("should match any number of chars", parser, 'zyxwvut', [122, 121, 120, 119, 118, 117, 116]);
+    });
+  });
+}

@@ -1,0 +1,7 @@
+name: dart-parsec
+version: 0.1.0-snapshot
+author: Maxim Dikun <dikmax@gmail.com>
+description: Parsec parser combinators library (http://hackage.haskell.org/package/parsec) port to Dart.
+homepage: https://github.com/dikmax/dart-parsec
+dev_dependencies:
+  unittest: any

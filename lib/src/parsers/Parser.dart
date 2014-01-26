@@ -23,7 +23,13 @@ abstract class Parser<T> {
     return this;
   }
 
-  SequenceParser operator & (Parser parser2) => new SequenceParser([this, parser2]);
+  /// Alias for `^` operator
+  Parser<T> label (String name) => this ^ name;
+
+  SequenceParser operator & (Parser parser) => new SequenceParser([this, parser]);
+
+  /// Alias for `&` operator
+  SequenceParser and (Parser parser) => this & parser;
 
   T getReturn(ParseContext ctxt) {
     return ctxt.result as T;
