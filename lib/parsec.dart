@@ -10,5 +10,6 @@ part 'src/parsers/FollowerByParser.dart';
 part 'src/parsers/ManyParser.dart';
 part 'src/parsers/MapParser.dart';
 part 'src/parsers/Parser.dart';
+part 'src/parsers/SequenceParser.dart';
 part 'src/char.dart';
 part 'src/combinators.dart';

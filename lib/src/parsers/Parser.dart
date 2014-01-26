@@ -23,6 +23,8 @@ abstract class Parser<T> {
     return this;
   }
 
+  SequenceParser operator & (Parser parser2) => new SequenceParser([this, parser2]);
+
   T getReturn(ParseContext ctxt) {
     return ctxt.result as T;
   }
