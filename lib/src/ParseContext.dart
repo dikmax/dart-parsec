@@ -17,6 +17,8 @@ class ParseContext<S extends Iterable> {
     step = 0;
   }
 
+  int get end => _end;
+
   ParseContext.copy(ParseContext ctxt) : this.module = ctxt.module, this.source = ctxt.source {
     this.at = ctxt.at;
     this.step = ctxt.step;
@@ -28,6 +30,10 @@ class ParseContext<S extends Iterable> {
   bool get eof => at == _end;
 
   int get current => source.elementAt(at);
+
+  int lookForward(int index) {
+    return source.elementAt(at + index);
+  }
 
   void next([int n = 1]) {
     at += n;

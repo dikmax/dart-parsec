@@ -46,6 +46,12 @@ void main() {
       _testException("shouldn't match excluded char", parser, 'd');
       _testSuccess("should work with List<int>", oneOf(<int>[97, 98, 99]), 'c', 'c'.codeUnits[0]);
     });
+    t.group('string', () {
+      StringParser parser = string('string');
+      _testSuccess("should match same string", parser, 'string', 'string');
+      _testException("shouldn't match shorter string", parser, 'strin');
+      _testException("shouldn't match longer string", parser, 'string!');
+    });
     t.group('toString', () {
       _testSuccess("should transfrom int to String", toString(anyChar), 'a', 'a');
       _testSuccess("should transfrom List<int> to String", toString(many(anyChar)), 'abcde', 'abcde');

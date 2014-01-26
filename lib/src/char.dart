@@ -77,3 +77,10 @@ Parser<int> noneOf(chars) {
  *     var digit = satisfy((char) => char >= 48 && char <= 57);
  */
 Parser<int> satisfy(CharPredicate predicate, [String name]) => new CharParser(predicate, name);
+
+/**
+ * `string(s)` parses a sequence of characters given by `s`. Returns the parsed string (i.e. `s`).
+ *
+ *     var divOrMod = string("div") | string("mod")
+ */
+StringParser string(String s) => new StringParser(s);

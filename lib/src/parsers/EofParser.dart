@@ -5,7 +5,12 @@ class EofParser extends Parser {
 
   EofParser(this.name);
 
-  bool apply(ParseContext ctxt) => ctxt.eof;
+  bool apply(ParseContext ctxt) {
+    if (!ctxt.eof) {
+      ctxt.addExpected(this);
+    }
+    return ctxt.eof;
+  }
 
   String toString() => name;
 }
