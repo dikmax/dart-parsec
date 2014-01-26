@@ -12,9 +12,16 @@ Parser<String> toString(Parser parser) => new MapParser(parser, (list) {
   }
 });
 
-/// Matches one any char
+/**
+ * This parser succeeds for any character. Returns the parsed character.
+ */
 Parser<int> anyChar = satisfy((char) => true, 'any char');
 
+/**
+ * `char(c)` parses a single character `c`. Returns the parsed character (i.e. `c`).
+ *
+ *     var semiColon = char(';')
+ */
 Parser<int> char(c) {
   if (c is String) {
     if (c.length != 1) {
@@ -29,6 +36,12 @@ Parser<int> char(c) {
 }
 Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
 
+/**
+ * `oneOf(chars)` succeeds if the current character is in the supplied list of characters `chars`.
+ * Returns the parsed character.
+ *
+ *     var vowel = oneOf("aeiou")
+ */
 Parser<int> oneOf(chars) {
   if (chars is String) {
     chars = new List<int>.from(chars.codeUnits);
@@ -40,4 +53,27 @@ Parser<int> oneOf(chars) {
   return satisfy((char) => binarySearch(chars, char) != -1, "[${new String.fromCharCodes(chars)}]");
 }
 
-Parser<int> satisfy(CharPredicate predicate, String name) => new CharParser(predicate, name);
+/**
+ * As the dual of [oneOf], `noneOf(chars)` succeeds if the current character *not* in the supplied list of characters
+ * `chars`. Returns the parsed character.
+ *
+ *     var consonant = noneOf("aeiou")
+ */
+Parser<int> noneOf(chars) {
+  if (chars is String) {
+    chars = new List<int>.from(chars.codeUnits);
+  }
+  if (!(chars is List<int>)) {
+    throw new ArgumentError("char accepts only List<int> or String");
+  }
+  chars.sort();
+  return satisfy((char) => binarySearch(chars, char) == -1, "[^${new String.fromCharCodes(chars)}]");
+}
+
+/**
+ * The parser `satisfy` succeeds for any character for which the supplied function `predicate` returns `true`.
+ * Predicate should check code units. Returns the character that is actually parsed.
+ *
+ *     var digit = satisfy((char) => char >= 48 && char <= 57);
+ */
+Parser<int> satisfy(CharPredicate predicate, [String name]) => new CharParser(predicate, name);

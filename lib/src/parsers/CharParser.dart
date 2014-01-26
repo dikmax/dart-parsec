@@ -5,7 +5,7 @@ typedef bool CharPredicate(int);
 class CharParser extends Parser<int> {
   CharPredicate predicate;
 
-  CharParser(this.predicate, name) : super(name) ;
+  CharParser(this.predicate, [String name]) : super(name) ;
 
   bool apply(ParseContext ctxt) {
     if (ctxt.eof) {
