@@ -9,7 +9,8 @@ class CharParser extends Parser<int> {
 
   bool apply(ParseContext ctxt) {
     if (ctxt.eof) {
-      // TODO add unexpected eof message
+      // TODO ??? maybe replace with unexpected eof message
+      ctxt.addExpected(this);
       return false;
     }
     if (predicate(ctxt.current)) {

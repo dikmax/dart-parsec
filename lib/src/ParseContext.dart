@@ -46,5 +46,5 @@ class ParseContext<S extends Iterable> {
     _expected.add(name);
   }
 
-  String get exception => new ExpectedException(this._expected);
+  ExpectedException get exception => new ExpectedException(this._expected);
 }
