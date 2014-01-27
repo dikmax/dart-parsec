@@ -33,14 +33,14 @@ void main() {
     t.group('oneOf', () {
       CharParser parser = oneOf('abc');
       success("should match included char", parser, 'b', 'b'.codeUnits[0]);
-      exception("shouldn't match excluded char", parser, 'd');
+      expected("shouldn't match excluded char", parser, 'd', ['[abc]']);
       success("should work with List<int>", oneOf(<int>[97, 98, 99]), 'c', 'c'.codeUnits[0]);
     });
     t.group('string', () {
       StringParser parser = string('string');
       success("should match same string", parser, 'string', 'string');
-      exception("shouldn't match shorter string", parser, 'strin');
-      exception("shouldn't match longer string", parser, 'string!');
+      expected("shouldn't match shorter string", parser, 'strin', ['string']);
+      expected("shouldn't match longer string", parser, 'string!', ['End of input']);
     });
     t.group('toString', () {
       success("should transfrom int to String", toString(anyChar), 'a', 'a');
@@ -58,7 +58,7 @@ void main() {
 
     t.group('many1', () {
       Parser parser = many1(anyChar);
-      exception("shouldn't match empty string", parser, "");
+      expected("shouldn't match empty string", parser, "", ['any char{1,}']);
       success('should match string with one char', parser, 'a', [97]);
       success("should match any number of chars", parser, 'zyxwvut', [122, 121, 120, 119, 118, 117, 116]);
     });
@@ -75,8 +75,8 @@ void main() {
     t.group('&', () {
       Parser parser = digit & char('a');
       success('should apply parsers sequentenly', parser, '1a', '1a'.codeUnits);
-      exception('could fail on first parser', parser, 'aa');
-      exception('could fail on second parser', parser, '1й');
+      expected('could fail on first parser', parser, 'aa', ['digit']);
+      expected('could fail on second parser', parser, '1й', ['a']);
     });
   });
 }

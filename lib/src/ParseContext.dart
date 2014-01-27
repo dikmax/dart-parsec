@@ -27,6 +27,12 @@ class ParseContext<S extends Iterable> {
     this._expected = ctxt._expected;
   }
 
+  ParseContext.clean(ParseContext ctxt) : this.module = ctxt.module, this.source = ctxt.source, this.result = null {
+    this.at = ctxt.at;
+    this.step = ctxt.step;
+    this._end = ctxt._end;
+  }
+
   bool get eof => at == _end;
 
   int get current => source.elementAt(at);

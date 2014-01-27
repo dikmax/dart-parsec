@@ -11,12 +11,14 @@ class ManyParser<E, T extends Iterable<E>> extends Parser<T> {
   bool apply(ParseContext ctxt) {
     List<E> result = <E>[];
     while(true) {
-      // TODO new context
-      bool res = parser.apply(ctxt);
+      var parseContext = new ParseContext.clean(ctxt);
+      bool res = parser.apply(parseContext);
       if (!res) {
         break;
       }
-      result.add(ctxt.result);
+      ctxt.at = parseContext.at;
+      ctxt.step = parseContext.step;
+      result.add(parseContext.result);
     }
 
     if (result.length > 0 || !requireFirst) {
