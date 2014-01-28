@@ -5,7 +5,7 @@ class StringParser extends Parser<String> {
   int _length;
 
   StringParser(String string) : super(string) {
-    this._string = string.codeUnits;
+    this._string = new List<int>.from(string.runes);
     _length = this._string.length;
   }
 

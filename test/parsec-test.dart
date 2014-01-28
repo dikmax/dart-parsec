@@ -6,8 +6,8 @@ import '../lib/parsec.dart';
 void main() {
   t.group('Char parser', () {
     t.group('char', () {
-      success("should accept codeUnit", char('a'.codeUnits[0]), 'a', 'a'.codeUnits[0]);
-      success("should accept String", char('a'), 'a', 'a'.codeUnits[0]);
+      success("should accept codeUnit", char('a'.runes.elementAt(0)), 'a', 'a'.runes.elementAt(0));
+      success("should accept String", char('a'), 'a', 'a'.runes.elementAt(0));
       exception("should fail on not accepted chars", char('a'), 'b');
       t.test("should fail on empty strings", () {
         t.expect(() => char(''), t.throws);
@@ -23,25 +23,57 @@ void main() {
     t.group('anyChar', () {
       expected("should match one char", anyChar, '', ['any char']);
       expected("should match only one char", anyChar, 'aa', ['End of input']);
-      success("should match one and only one char", anyChar, 'a', 'a'.codeUnits[0]);
+      success("should match one and only one char", anyChar, 'a', 'a'.runes.elementAt(0));
     });
 
     t.group('digit', () {
-      success("should match digit", digit, '0', '0'.codeUnits[0]);
+      success("should match digit", digit, '0', '0'.runes.elementAt(0));
       expected("shouldn't match letter", digit, 'a', ['digit']);
     });
+
+    t.group('space', () {
+      success("should match space", space, ' ', ' '.runes.elementAt(0));
+      expected("shouldn't match letter", space, 'a', ['space']);
+    });
+
+    t.group('newline', () {
+      success("should match newline", newline, '\n', '\n'.runes.elementAt(0));
+      expected("shouldn't match letter", newline, 'a', ['new-line']);
+    });
+
+    t.group('tab', () {
+      success("should match tab", tab, '\t', '\t'.runes.elementAt(0));
+      expected("shouldn't match letter", tab, 'a', ['tab']);
+    });
+
+    t.group('upper', () {
+      success("should match latin upper case letter", upper, 'Q', 'Q'.runes.elementAt(0));
+      expected("shouldn't match latin lower case letter", upper, 'q', ['uppercase letter']);
+      success("should match cyrillic upper case letter", upper, 'Ж', 'Ж'.runes.elementAt(0));
+      expected("shouldn't match cyrillic lower case letter", upper, 'ж', ['uppercase letter']);
+    });
+
+    t.group('lower', () {
+      success("should match latin lower case letter", lower, 'q', 'q'.runes.elementAt(0));
+      expected("shouldn't match latin upper case letter", lower, 'Q', ['lowercase letter']);
+      success("should match cyrillic lower case letter", lower, 'ж', 'ж'.runes.elementAt(0));
+      expected("shouldn't match cyrillic upper case letter", lower, 'Ж', ['lowercase letter']);
+    });
+
     t.group('oneOf', () {
       CharParser parser = oneOf('abc');
-      success("should match included char", parser, 'b', 'b'.codeUnits[0]);
+      success("should match included char", parser, 'b', 'b'.runes.elementAt(0));
       expected("shouldn't match excluded char", parser, 'd', ['[abc]']);
-      success("should work with List<int>", oneOf(<int>[97, 98, 99]), 'c', 'c'.codeUnits[0]);
+      success("should work with List<int>", oneOf(<int>[97, 98, 99]), 'c', 'c'.runes.elementAt(0));
     });
+
     t.group('string', () {
       StringParser parser = string('string');
       success("should match same string", parser, 'string', 'string');
       expected("shouldn't match shorter string", parser, 'strin', ['string']);
       expected("shouldn't match longer string", parser, 'string!', ['End of input']);
     });
+
     t.group('toString', () {
       success("should transfrom int to String", toString(anyChar), 'a', 'a');
       success("should transfrom List<int> to String", toString(many(anyChar)), 'abcde', 'abcde');

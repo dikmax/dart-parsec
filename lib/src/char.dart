@@ -27,14 +27,43 @@ Parser<int> char(c) {
     if (c.length != 1) {
       throw new ArgumentError("char accepts only String with length = 1");
     }
-    c = c.codeUnits[0];
+    c = c.runes.elementAt(0);
   }
   if (c is int) {
     return satisfy((char) => char == c, new String.fromCharCode(c));
   }
   throw new ArgumentError("char accepts only int or String");
 }
+
 Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
+
+/**
+ * Parses a white space character (any character which satisfies 'isSpace')
+ * Returns the parsed character.
+ */
+Parser<int> space = satisfy(isSpace, 'space');
+
+/**
+ * Parses a newline character (\n). Returns a newline character.
+ */
+Parser<int> newline = satisfy((char) => char == 10, 'new-line');
+
+/**
+ * Parses a tab character (\t). Returns a tab character.
+ */
+Parser<int> tab = satisfy((char) => char == 9, 'tab');
+
+/**
+ * Parses an upper case letter (a character between 'A' and 'Z').
+ * Returns the parsed character.
+ */
+Parser<int> upper = satisfy(isUpper, 'uppercase letter');
+
+/**
+ * Parses an lower case letter (a character between 'a' and 'z').
+ * Returns the parsed character.
+ */
+Parser<int> lower = satisfy(isLower, 'lowercase letter');
 
 /**
  * `oneOf(chars)` succeeds if the current character is in the supplied list of characters `chars`.
@@ -44,7 +73,7 @@ Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
  */
 Parser<int> oneOf(chars) {
   if (chars is String) {
-    chars = new List<int>.from(chars.codeUnits);
+    chars = new List<int>.from(chars.runes);
   }
   if (!(chars is List<int>)) {
     throw new ArgumentError("char accepts only List<int> or String");
@@ -61,7 +90,7 @@ Parser<int> oneOf(chars) {
  */
 Parser<int> noneOf(chars) {
   if (chars is String) {
-    chars = new List<int>.from(chars.codeUnits);
+    chars = new List<int>.from(chars.runes);
   }
   if (!(chars is List<int>)) {
     throw new ArgumentError("char accepts only List<int> or String");
