@@ -6,5 +6,7 @@ EofParser eof = new EofParser('End of input');
 
 Parser many(Parser parser) => new ManyParser(parser, requireFirst: false);
 Parser many1(Parser parser) => new ManyParser(parser, requireFirst: true);
+Parser skipMany(Parser parser) => new SkipManyParser(parser, requireFirst: false);
+Parser skipMany1(Parser parser) => new SkipManyParser(parser, requireFirst: true);
 
 Parser map(Parser parser, MapFunction map) => new MapParser(parser, map);

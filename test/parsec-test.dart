@@ -120,6 +120,20 @@ void main() {
       success('should match string with one char', parser, 'a', [97]);
       success("should match any number of chars", parser, 'zyxwvut', [122, 121, 120, 119, 118, 117, 116]);
     });
+
+    t.group('skipMany', () {
+      Parser parser = skipMany(anyChar);
+      success('should match empty string', parser, '', null);
+      success('should match string with one char', parser, 'a', null);
+      success('should match any number of chars', parser, 'zyxwvut', null);
+    });
+
+    t.group('skipMany1', () {
+      Parser parser = skipMany1(anyChar);
+      expected("shouldn't match empty string", parser, "", ['any char{1,}']);
+      success('should match string with one char', parser, 'a', null);
+      success("should match any number of chars", parser, 'zyxwvut', null);
+    });
   });
 
   t.group('Parser operator', () {
