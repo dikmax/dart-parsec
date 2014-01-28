@@ -44,6 +44,7 @@ void processFile(List<String> lines) {
   List<int> upper = <int>[];
   List<int> alpha = <int>[];
   List<int> alphaNum = <int>[];
+  List<int> numeric = <int>[];
 
   var testFile = new File('test/unicode-test.dart');
 
@@ -92,11 +93,16 @@ void processFile(List<String> lines) {
     case 'Mc':
     case 'Me':
     case 'Mn':
+      alphaNum.add(code);
+      params.add('an:true');
+      break;
+
     case 'Nd':
     case 'Nl':
     case 'No':
       alphaNum.add(code);
-      params.add('an:true');
+      numeric.add(code);
+      params.addAll(['an:true', 'n: true']);
       break;
     }
 
@@ -110,7 +116,7 @@ void processFile(List<String> lines) {
   ts.writeln('}');
   ts.writeln();
   ts.writeln(r'''
-  void testCode(int code, {bool s: false, bool a: false, bool an: false, bool l: false, bool u: false}) {
+  void testCode(int code, {bool s: false, bool a: false, bool an: false, bool l: false, bool u: false, bool n: false}) {
     if (isSpace(code) != s) {
       print(s ? "${code} should be space" : "${code} should not be space");
     }
@@ -125,6 +131,9 @@ void processFile(List<String> lines) {
     }
     if (isLower(code) != l) {
       print(l ? "${code} should be lower" : "${code} should not be lower");
+    }
+    if (isNumeric(code) != n) {
+      print(n ? "${code} should be numeric" : "${code} should not be numeric");
     }
   }
   ''');
@@ -158,6 +167,10 @@ void processFile(List<String> lines) {
 
   sink.write(r"bool isAlphaNum(int c) => ");
   sink.write(toCondition(alphaNum));
+  sink.writeln(';');
+
+  sink.write(r"bool isNumeric(int c) => ");
+  sink.write(toCondition(numeric));
   sink.writeln(';');
 
   sink.close();

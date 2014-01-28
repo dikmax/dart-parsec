@@ -35,13 +35,13 @@ Parser<int> char(c) {
   throw new ArgumentError("char accepts only int or String");
 }
 
-Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
-
 /**
  * Parses a white space character (any character which satisfies 'isSpace')
  * Returns the parsed character.
  */
 Parser<int> space = satisfy(isSpace, 'space');
+
+// TODO spaces = skipMany space
 
 /**
  * Parses a newline character (\n). Returns a newline character.
@@ -64,6 +64,32 @@ Parser<int> upper = satisfy(isUpper, 'uppercase letter');
  * Returns the parsed character.
  */
 Parser<int> lower = satisfy(isLower, 'lowercase letter');
+
+/**
+ * Parses a letter or digit (a character between '0' and '9'). Returns the parsed character.
+ */
+Parser<int> alphaNum = satisfy(isAlphaNum, 'letter or digit');
+
+/**
+ * Parses a letter (an upper case or lower case character). Returns the parsed character.
+ */
+Parser<int> letter = satisfy(isAlpha, 'letter');
+
+/**
+ * Parses a digit. Returns the parsed character.
+ */
+Parser<int> digit = satisfy((char) => char >= 48 && char <= 57, 'digit'); // 0-9
+
+/**
+ * Parses a numeric character. Returns the parsed character.
+ */
+Parser<int> numeric = satisfy(isNumeric, 'numeric character');
+
+/**
+ * Parses a hexadecimal digit (a digit or a letter between 'a' and 'f' or 'A' and 'F'). Returns the parsed character.
+ */
+Parser<int> hexDigit = satisfy((char) => char >= 48 && char <= 57 ||
+    char >= 65 && char <= 70 || char >= 97 && char <= 102, 'hexadecimal digit');
 
 /**
  * `oneOf(chars)` succeeds if the current character is in the supplied list of characters `chars`.

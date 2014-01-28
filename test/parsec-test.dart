@@ -26,11 +26,6 @@ void main() {
       success("should match one and only one char", anyChar, 'a', 'a'.runes.elementAt(0));
     });
 
-    t.group('digit', () {
-      success("should match digit", digit, '0', '0'.runes.elementAt(0));
-      expected("shouldn't match letter", digit, 'a', ['digit']);
-    });
-
     t.group('space', () {
       success("should match space", space, ' ', ' '.runes.elementAt(0));
       expected("shouldn't match letter", space, 'a', ['space']);
@@ -58,6 +53,37 @@ void main() {
       expected("shouldn't match latin upper case letter", lower, 'Q', ['lowercase letter']);
       success("should match cyrillic lower case letter", lower, 'ж', 'ж'.runes.elementAt(0));
       expected("shouldn't match cyrillic upper case letter", lower, 'Ж', ['lowercase letter']);
+    });
+
+    t.group('alphaNum', () {
+      success("should match latin letter", alphaNum, 'q', 'q'.runes.elementAt(0));
+      success("should match cyrillic letter", alphaNum, 'Ж', 'Ж'.runes.elementAt(0));
+      success("should match digit", alphaNum, '7', '7'.runes.elementAt(0));
+      expected("shouldn't match dot", alphaNum, '.', ['letter or digit']);
+    });
+
+    t.group('letter', () {
+      success("should match latin letter", letter, 'q', 'q'.runes.elementAt(0));
+      success("should match cyrillic letter", letter, 'Ж', 'Ж'.runes.elementAt(0));
+      expected("shouldn't match digit", letter, '7', ['letter']);
+      expected("shouldn't match dot", letter, '.', ['letter']);
+    });
+
+    t.group('digit', () {
+      success("should match digit", digit, '0', '0'.runes.elementAt(0));
+      expected("shouldn't match letter", digit, 'a', ['digit']);
+    });
+
+    t.group('numeric', () {
+      success("should match digit", numeric, '0', '0'.runes.elementAt(0));
+      expected("shouldn't match letter", numeric, 'a', ['numeric character']);
+    });
+
+    t.group('hexDigit', () {
+      success("should match digit", hexDigit, '0', '0'.runes.elementAt(0));
+      success("should match lower case hex digit", hexDigit, 'f', 'f'.runes.elementAt(0));
+      success("should match upper case hex digit", hexDigit, 'F', 'F'.runes.elementAt(0));
+      expected("shouldn't match letter", hexDigit, 'g', ['hexadecimal digit']);
     });
 
     t.group('oneOf', () {
@@ -128,6 +154,7 @@ void expected(String description, Parser parser, String data, List<String> expec
     Set<String> expectedSet = new Set<String>.from(expected);
     try {
       parser.parse(data);
+      t.expect(false, t.isTrue, reason: "Exception wasn't raised");
     } on ExpectedException catch (e) {
       t.expect(e.expected, t.equals(expected));
     }
