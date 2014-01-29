@@ -15,5 +15,5 @@ part 'src/parsers/SequenceParser.dart';
 part 'src/parsers/SkipManyParser.dart';
 part 'src/parsers/StringParser.dart';
 part 'src/char.dart';
-part 'src/combinators.dart';
+part 'src/combinator.dart';
 part 'src/unicode.dart';

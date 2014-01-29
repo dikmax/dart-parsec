@@ -36,7 +36,6 @@ abstract class Parser<T> {
   }
 
   T parse(String source, {String moduleName: null}) {
-    // TODO replace with runes
     ParseContext ctxt = new ParseContext<Runes>(moduleName, source.runes, 0);
     if (!followedBy(eof).run(ctxt)) {
       throw ctxt.exception;

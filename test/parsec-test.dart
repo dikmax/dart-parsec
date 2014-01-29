@@ -31,6 +31,13 @@ void main() {
       expected("shouldn't match letter", space, 'a', ['space']);
     });
 
+    t.group('spaces', () {
+      success("should match space", spaces, ' ', null);
+      success("should match empty string", spaces, '', null);
+      success("should match any number space-like chars", spaces, '  \t\n  ', null);
+      expected("shouldn't match letter", space, '  a  ', ['End of input']);
+    });
+
     t.group('newline', () {
       success("should match newline", newline, '\n', '\n'.runes.elementAt(0));
       expected("shouldn't match letter", newline, 'a', ['new-line']);

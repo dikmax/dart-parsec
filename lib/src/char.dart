@@ -41,7 +41,10 @@ Parser<int> char(c) {
  */
 Parser<int> space = satisfy(isSpace, 'space');
 
-// TODO spaces = skipMany space
+/**
+ * Skips *zero* or more white space characters.
+ */
+Parser<Null> spaces = skipMany(space) ^ "white space";
 
 /**
  * Parses a newline character (\n). Returns a newline character.
