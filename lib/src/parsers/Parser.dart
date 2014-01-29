@@ -28,6 +28,8 @@ abstract class Parser<T> {
 
   SequenceParser operator & (Parser parser) => new SequenceParser([this, parser]);
 
+  ChoiseParser operator | (Parser parser) => new ChoiseParser([this, parser]);
+
   /// Alias for `&` operator
   SequenceParser and (Parser parser) => this & parser;
 

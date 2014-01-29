@@ -1,19 +1,20 @@
 part of parsec;
 
 class SequenceParser<T> extends Parser<T> {
-  List<Parser> parsers;
+  Iterable<Parser> parsers;
 
   SequenceParser(this.parsers) : super("Sequence");
 
   SequenceParser operator & (Parser parser) {
-    parsers.add(parser);
+    List<Parser> p = new List<Parser>.from(parsers);
+    p.add(parser);
+    parsers = p;
     return this;
   }
 
   bool apply(ParseContext ctxt) {
     List r = [];
-    for (int i = 0; i < parsers.length; ++i) {
-      Parser parser = parsers[i];
+    for (Parser parser in parsers) {
       bool result = parser.apply(ctxt);
       if (!result) {
         ctxt.result = r;

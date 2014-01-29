@@ -165,6 +165,14 @@ void main() {
       expected('could fail on first parser', parser, 'aa', ['digit']);
       expected('could fail on second parser', parser, '1й', ['a']);
     });
+
+    t.group('|', () {
+      Parser parser = char('a') | char('b') | char('c');
+      success('should match first sub-parser', parser, 'a', 'a'.runes.elementAt(0));
+      success('should match middle sub-parser', parser, 'b', 'b'.runes.elementAt(0));
+      success('should match last sub-parser', parser, 'c', 'c'.runes.elementAt(0));
+      expected("shouldn't match any other chars", parser, 'd', ['a', 'b', 'c']);
+    });
   });
 }
 

@@ -5,6 +5,13 @@ class ChoiseParser<T> extends Parser<T> {
 
   ChoiseParser(this.parsers, [name]) : super(name);
 
+  ChoiseParser<T> operator | (Parser<T> parser) {
+    List<Parser<T>> p = new List<Parser<T>>.from(parsers);
+    p.add(parser);
+    parsers = p;
+    return this;
+  }
+
   bool apply(ParseContext ctxt) {
     for (Parser<T> parser in parsers) {
       ParseContext newContext = new ParseContext.clean(ctxt);
