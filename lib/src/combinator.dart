@@ -3,6 +3,12 @@ part of parsec;
 // TODO update when function generics will be implemented https://code.google.com/p/dart/issues/detail?id=254
 
 /**
+ * `choice(ps)` tries to apply the parsers in the list `ps` in order, until one of them succeeds.
+ * Returns the value of the succeeding parser.
+ */
+ChoiseParser choise(Iterable<Parser> parsers) => new ChoiseParser(parsers);
+
+/**
  * This parser only succeeds at the end of the input.
  */
 EofParser eof = new EofParser('End of input');

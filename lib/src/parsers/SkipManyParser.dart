@@ -1,8 +1,7 @@
 part of parsec;
 
 class SkipManyParser extends Parser<Null> {
-
-  Parser<E> parser;
+  Parser parser;
   bool requireFirst;
   String name;
 

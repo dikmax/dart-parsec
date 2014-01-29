@@ -6,6 +6,7 @@ import 'package:collection/algorithms.dart';
 part 'src/ExpectedException.dart';
 part 'src/ParseContext.dart';
 part 'src/parsers/CharParser.dart';
+part 'src/parsers/ChoiseParser.dart';
 part 'src/parsers/EofParser.dart';
 part 'src/parsers/FollowerByParser.dart';
 part 'src/parsers/ManyParser.dart';
