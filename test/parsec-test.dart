@@ -122,6 +122,12 @@ void main() {
       expected("shouldn't match any other chars", parser, 'd', ['a', 'b', 'c']);
     });
 
+    t.group('option', () {
+      Parser parser = option('c'.runes.elementAt(0), char('a'));
+      success('should return value of matched sub-parser', parser, 'a', 'a'.runes.elementAt(0));
+      success('should return default value otherwise', parser, '', 'c'.runes.elementAt(0));
+    });
+
     t.group('many', () {
       Parser parser = many(anyChar);
       success('should match empty string', parser, '', []);

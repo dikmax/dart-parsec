@@ -9,6 +9,12 @@ part of parsec;
 ChoiseParser choise(Iterable<Parser> parsers) => new ChoiseParser(parsers);
 
 /**
+ * `option(x,p)` tries to apply parser `p`. If `p` fails without consuming input, it returns the value `x`,
+ * otherwise the value returned by `p`.
+*/
+ChoiseParser option(dynamic res, Parser parser) => parser | new ReturnParser(res);
+
+/**
  * This parser only succeeds at the end of the input.
  */
 EofParser eof = new EofParser('End of input');
