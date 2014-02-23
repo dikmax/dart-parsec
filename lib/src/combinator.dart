@@ -44,6 +44,20 @@ Parser<Null> skipMany(Parser parser) => new SkipManyParser(parser, requireFirst:
 Parser<Null> skipMany1(Parser parser) => new SkipManyParser(parser, requireFirst: true);
 
 /**
+ * `sepBy(p, sep)` parses *zero* or more occurrences of `p`, separated by `sep`. Returns a list of values returned
+ * by `p`.
+ *
+ *     commaSep(p) => sepBy(p, char(","))
+ */
+Parser sepBy(Parser p, Parser sep) => new SepByParser(p, sep, requireFirst: false);
+
+/**
+ * `sepBy1(p, sep)` parses *one* or more occurrences of `p`, separated by `sep`. Returns a list of values returned
+ * by `p`.
+ */
+Parser sepBy1(Parser p, Parser sep) => new SepByParser(p, sep, requireFirst: true);
+
+/**
  * `sepEndBy(p, sep)` parses *zero* or more occurrences of `p`, separated and optionally ended by `sep`, ie. haskell
  * style statements. Returns a list of values returned by `p`.
  *

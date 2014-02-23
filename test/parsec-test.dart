@@ -156,6 +156,26 @@ void main() {
       success("should match any number of chars", parser, 'zyxwvut', null);
     });
 
+    t.group('sepBy', () {
+      Parser parser = sepBy(oneOf('abc'), char(','));
+      success('should match empty string', parser, '', []);
+      expected('shouldn\'t match only separator', parser, ',', ['End of input']);
+      success('should match string with one char', parser, 'a', [97]);
+      expected('shouldn\'t match string with one char with separator', parser, 'a,', ['End of input']);
+      success('should match string with three chars separated by comma', parser, 'a,b,c', [97, 98, 99]);
+      expected('shouldn\'t match string with three chars separated and ended by comma', parser, 'a,b,c,', ['End of input']);
+    });
+
+    t.group('sepBy1', () {
+      Parser parser = sepBy1(oneOf('abc'), char(','));
+      expected('shouldn\'t match empty string', parser, '', ['[abc](,[abc])*']);
+      expected('shouldn\'t match only separator', parser, ',', ['[abc](,[abc])*']);
+      success('should match string with one char', parser, 'a', [97]);
+      expected('shouldn\'t match string with one char with separator', parser, 'a,', ['End of input']);
+      success('should match string with three chars separated by comma', parser, 'a,b,c', [97, 98, 99]);
+      expected('shouldn\'t match string with three chars separated and ended by comma', parser, 'a,b,c,', ['End of input']);
+    });
+
     t.group('sepEndBy', () {
       Parser parser = sepEndBy(oneOf('abc'), char(','));
       success('should match empty string', parser, '', []);

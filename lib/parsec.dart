@@ -15,6 +15,7 @@ part 'src/parsers/ManyParser.dart';
 part 'src/parsers/MapParser.dart';
 part 'src/parsers/ReturnParser.dart';
 part 'src/parsers/Parser.dart';
+part 'src/parsers/SepByParser.dart';
 part 'src/parsers/SepEndByParser.dart';
 part 'src/parsers/SequenceParser.dart';
 part 'src/parsers/SkipManyParser.dart';
