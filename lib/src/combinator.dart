@@ -43,4 +43,18 @@ Parser<Null> skipMany(Parser parser) => new SkipManyParser(parser, requireFirst:
  */
 Parser<Null> skipMany1(Parser parser) => new SkipManyParser(parser, requireFirst: true);
 
+/**
+ * `sepEndBy(p, sep)` parses *zero* or more occurrences of `p`, separated and optionally ended by `sep`, ie. haskell
+ * style statements. Returns a list of values returned by `p`.
+ *
+ *     haskellStatements = sepEndBy(haskellStatement, semi)
+ */
+Parser sepEndBy(Parser p, Parser sep) => new SepEndByParser(p, sep, requireFirst: false);
+
+/**
+ * `sepEndBy1(p, sep)` parses *one* or more occurrences of `p`, separated and optionally ended by `sep`. Returns a list
+ * of values returned by `p`.
+ */
+Parser sepEndBy1(Parser p, Parser sep) => new SepEndByParser(p, sep, requireFirst: true);
+
 Parser map(Parser parser, MapFunction map) => new MapParser(parser, map);

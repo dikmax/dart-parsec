@@ -155,12 +155,30 @@ void main() {
       success('should match string with one char', parser, 'a', null);
       success("should match any number of chars", parser, 'zyxwvut', null);
     });
+
+    t.group('sepEndBy', () {
+      Parser parser = sepEndBy(oneOf('abc'), char(','));
+      success('should match empty string', parser, '', []);
+      expected('shouldn\'t match only separator', parser, ',', ['End of input']);
+      success('should match string with one char', parser, 'a', [97]);
+      success('should match string with three chars separated by comma', parser, 'a,b,c', [97, 98, 99]);
+      success('should match string with three chars separated and ended by comma', parser, 'a,b,c,', [97, 98, 99]);
+    });
+
+    t.group('sepEndBy1', () {
+      Parser parser = sepEndBy1(oneOf('abc'), char(','));
+      expected('shouldn\'t match empty string', parser, '', ['([abc],?)+']);
+      expected('shouldn\'t match only separator', parser, ',', ['([abc],?)+']);
+      success('should match string with one char', parser, 'a', [97]);
+      success('should match string with three chars separated by comma', parser, 'a,b,c', [97, 98, 99]);
+      success('should match string with three chars separated and ended by comma', parser, 'a,b,c,', [97, 98, 99]);
+    });
   });
 
   t.group('Parser operator', () {
     t.group('^', () {
       Parser parser = many1(digit) ^ 'value';
-      t.test('shold change parser name', () {
+      t.test('should change parser name', () {
         t.expect(parser.name, t.equals('value'));
       });
     });
