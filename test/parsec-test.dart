@@ -137,7 +137,7 @@ void main() {
 
     t.group('many1', () {
       Parser parser = many1(anyChar);
-      expected("shouldn't match empty string", parser, "", ['any char{1,}']);
+      expected("shouldn't match empty string", parser, "", ['any char+']);
       success('should match string with one char', parser, 'a', [97]);
       success("should match any number of chars", parser, 'zyxwvut', [122, 121, 120, 119, 118, 117, 116]);
     });
@@ -151,7 +151,7 @@ void main() {
 
     t.group('skipMany1', () {
       Parser parser = skipMany1(anyChar);
-      expected("shouldn't match empty string", parser, "", ['any char{1,}']);
+      expected("shouldn't match empty string", parser, "", ['any char+']);
       success('should match string with one char', parser, 'a', null);
       success("should match any number of chars", parser, 'zyxwvut', null);
     });
@@ -171,6 +171,26 @@ void main() {
       expected('shouldn\'t match only separator', parser, ',', ['([abc],?)+']);
       success('should match string with one char', parser, 'a', [97]);
       success('should match string with three chars separated by comma', parser, 'a,b,c', [97, 98, 99]);
+      success('should match string with three chars separated and ended by comma', parser, 'a,b,c,', [97, 98, 99]);
+    });
+
+    t.group('endBy', () {
+      Parser parser = endBy(oneOf('abc'), char(','));
+      success('should match empty string', parser, '', []);
+      expected('shouldn\'t match only separator', parser, ',', ['End of input']);
+      expected('shouldn\'t match one char', parser, 'a', ['End of input']);
+      success('should match string with one char with separator', parser, 'a,', [97]);
+      expected('shouldn\'t match string with three chars separated by comma', parser, 'a,b,c', ['End of input']);
+      success('should match string with three chars separated and ended by comma', parser, 'a,b,c,', [97, 98, 99]);
+    });
+
+    t.group('endBy1', () {
+      Parser parser = endBy1(oneOf('abc'), char(','));
+      expected('shouldn\'t match empty string', parser, '', ['([abc],)+']);
+      expected('shouldn\'t match only separator', parser, ',', ['([abc],)+']);
+      expected('shouldn\'t match one char', parser, 'a', ['([abc],)+']);
+      success('should match string with one char with separator', parser, 'a,', [97]);
+      expected('shouldn\'t match string with three chars separated by comma', parser, 'a,b,c', ['End of input']);
       success('should match string with three chars separated and ended by comma', parser, 'a,b,c,', [97, 98, 99]);
     });
   });

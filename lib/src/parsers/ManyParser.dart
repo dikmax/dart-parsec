@@ -30,5 +30,5 @@ class ManyParser<E, T extends Iterable<E>> extends Parser<T> {
     }
   }
 
-  String toString() => name == null ? parser.toString() + '{1,}' : name;
+  String toString() => name == null ? parser.toString() + (requireFirst ? '+' : '*') : name;
 }

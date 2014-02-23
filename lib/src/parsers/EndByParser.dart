@@ -1,13 +1,13 @@
 part of parsec;
 
-class SepEndByParser<E, T extends Iterable<E>> extends Parser<T> {
+class EndByParser<E, T extends Iterable<E>> extends Parser<T> {
   final Parser<E> parser;
   final Parser sepParser;
   final bool requireFirst;
 
   String name;
 
-  SepEndByParser(this.parser, this.sepParser, {this.requireFirst: false, this.name: null});
+  EndByParser(this.parser, this.sepParser, {this.requireFirst: false, this.name: null});
 
   bool apply(ParseContext ctxt) {
     List<E> result = <E>[];
@@ -19,16 +19,14 @@ class SepEndByParser<E, T extends Iterable<E>> extends Parser<T> {
       if (!res) {
         break;
       }
-      ctxt.at = parseContext.at;
-      ctxt.step = parseContext.step;
-      result.add(parseContext.result);
+      var intermediateResult = parseContext.result;
 
       // Skip separator
-      parseContext = new ParseContext.clean(ctxt);
       res = sepParser.apply(parseContext);
       if (!res) {
         break;
       }
+      result.add(intermediateResult);
       ctxt.at = parseContext.at;
       ctxt.step = parseContext.step;
     }
@@ -43,5 +41,5 @@ class SepEndByParser<E, T extends Iterable<E>> extends Parser<T> {
   }
 
   String toString() =>
-    name == null ? '(${parser.toString()}${sepParser.toString()}?)' + (requireFirst ? '+' : '*') : name;
+    name == null ? '(${parser.toString()}${sepParser.toString()})' + (requireFirst ? '+' : '*') : name;
 }

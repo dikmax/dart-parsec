@@ -29,5 +29,5 @@ class SkipManyParser extends Parser<Null> {
     }
   }
 
-  String toString() => name == null ? parser.toString() + '{1,}' : name;
+  String toString() => name == null ? parser.toString() + (requireFirst ? '+' : '*') : name;
 }

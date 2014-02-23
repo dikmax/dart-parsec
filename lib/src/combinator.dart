@@ -57,4 +57,18 @@ Parser sepEndBy(Parser p, Parser sep) => new SepEndByParser(p, sep, requireFirst
  */
 Parser sepEndBy1(Parser p, Parser sep) => new SepEndByParser(p, sep, requireFirst: true);
 
+/**
+ * `endBy(p, sep)` parses *zero* or more occurrences of `p`, separated and ended by `sep`. Returns a list of values
+ * returned by `p`.
+ *
+ *     cStatements  = endBy(cStatement, semi)
+ */
+Parser endBy(Parser p, Parser sep) => new EndByParser(p, sep, requireFirst: false);
+
+/**
+ * `endBy1(p, sep)` parses *one* or more occurrences of `p`, separated and ended by `sep`. Returns a list of values
+ * returned by `p`.
+ */
+Parser endBy1(Parser p, Parser sep) => new EndByParser(p, sep, requireFirst: true);
+
 Parser map(Parser parser, MapFunction map) => new MapParser(parser, map);
