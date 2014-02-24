@@ -31,7 +31,6 @@ class SepByParser<E, T extends Iterable<E>> extends Parser<T> {
 
     while(true) {
       // Skip separator
-      ParseContext parseContext = new ParseContext.clean(ctxt);
       bool res = sepParser.apply(parseContext);
       if (!res) {
         break;

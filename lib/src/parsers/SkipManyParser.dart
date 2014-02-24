@@ -9,8 +9,8 @@ class SkipManyParser extends Parser<Null> {
 
   bool apply(ParseContext ctxt) {
     int count = 0;
+    var parseContext = new ParseContext.clean(ctxt);
     while(true) {
-      var parseContext = new ParseContext.clean(ctxt);
       bool res = parser.apply(parseContext);
       if (!res) {
         break;

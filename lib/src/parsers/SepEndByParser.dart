@@ -12,9 +12,9 @@ class SepEndByParser<E, T extends Iterable<E>> extends Parser<T> {
   bool apply(ParseContext ctxt) {
     List<E> result = <E>[];
 
+    ParseContext parseContext = new ParseContext.clean(ctxt);
     while(true) {
       // Add parser result
-      ParseContext parseContext = new ParseContext.clean(ctxt);
       bool res = parser.apply(parseContext);
       if (!res) {
         break;
@@ -24,7 +24,6 @@ class SepEndByParser<E, T extends Iterable<E>> extends Parser<T> {
       result.add(parseContext.result);
 
       // Skip separator
-      parseContext = new ParseContext.clean(ctxt);
       res = sepParser.apply(parseContext);
       if (!res) {
         break;
