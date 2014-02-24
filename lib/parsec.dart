@@ -20,6 +20,7 @@ part 'src/parsers/SepEndByParser.dart';
 part 'src/parsers/SequenceParser.dart';
 part 'src/parsers/SkipManyParser.dart';
 part 'src/parsers/StringParser.dart';
+part 'src/parsers/TryParser.dart';
 part 'src/char.dart';
 part 'src/combinator.dart';
 part 'src/prim.dart';

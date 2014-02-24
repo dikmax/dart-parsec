@@ -4,6 +4,13 @@ import 'package:unittest/unittest.dart' as t;
 import '../lib/parsec.dart';
 
 void main() {
+  t.group('Prim parser', () {
+    t.group('try', () {
+      Parser parser = try1(string('strung')) | string('string');
+      success("should pretend it doesn\'t consumed any input in case of error", parser, 'string', 'string');
+    });
+  });
+
   t.group('Char parser', () {
     t.group('char', () {
       success("should accept codeUnit", char('a'.runes.elementAt(0)), 'a', 'a'.runes.elementAt(0));
