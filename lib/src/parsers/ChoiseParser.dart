@@ -14,12 +14,8 @@ class ChoiseParser<T> extends Parser<T> {
 
   bool apply(ParseContext ctxt) {
     for (Parser<T> parser in parsers) {
-      ParseContext newContext = new ParseContext.clean(ctxt);
-      var res = parser.apply(newContext);
+      var res = parser.apply(ctxt);
       if (res) {
-        ctxt.at = newContext.at;
-        ctxt.step = newContext.step;
-        ctxt.result = newContext.result;
         return true;
       }
     }

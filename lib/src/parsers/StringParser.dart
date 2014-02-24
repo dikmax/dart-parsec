@@ -10,24 +10,19 @@ class StringParser extends Parser<String> {
   }
 
   bool apply(ParseContext ctxt) {
-    if (ctxt.at + _length > ctxt.end) {
-      ctxt.addExpected(this);
-      return false;
-    }
-
-    bool result = true;
-    for (int i = 0; i < _length; ++i) {
-      if (_string[i] != ctxt.lookForward(i)) {
-        result = false;
+    int i = 0;
+    while (i < _length && !ctxt.eof) {
+      if (ctxt.current != _string[i]) {
         break;
       }
+      ctxt.next();
+      ++i;
     }
-    if (!result) {
+    if (i < _length) {
       ctxt.addExpected(this);
       return false;
     }
 
-    ctxt.next(_length);
     ctxt.result = new String.fromCharCodes(_string);
     return true;
   }

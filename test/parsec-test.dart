@@ -101,10 +101,12 @@ void main() {
     });
 
     t.group('string', () {
-      StringParser parser = string('string');
+      Parser parser = string('string');
       success("should match same string", parser, 'string', 'string');
       expected("shouldn't match shorter string", parser, 'strin', ['string']);
       expected("shouldn't match longer string", parser, 'string!', ['End of input']);
+      parser = parser | string('char');
+      success("should consume part of input in case of error", parser, 'strchar', 'char');
     });
 
     t.group('toString', () {
