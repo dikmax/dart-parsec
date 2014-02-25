@@ -85,4 +85,14 @@ Parser endBy(Parser p, Parser sep) => new EndByParser(p, sep, requireFirst: fals
  */
 Parser endBy1(Parser p, Parser sep) => new EndByParser(p, sep, requireFirst: true);
 
+/**
+ * `manyTill(p, end)` applies parser `p` *zero* or more times until parser `end` succeeds. Returns the list of values
+ * returned by `p`. This parser can be used to scan comments:
+ *
+ *     simpleComment = string("&lt;!--") & manyTill(anyChar, try1(string("-->")))
+ *
+ * Note the overlapping parsers `anyChar` and `string("-->")`, and therefore the use of the `try1` combinator.
+ */
+Parser manyTill(Parser p, Parser end) => new ManyTillParser(p, end);
+
 Parser map(Parser parser, MapFunction map) => new MapParser(parser, map);

@@ -222,6 +222,16 @@ void main() {
       expected('shouldn\'t match string with three chars separated by comma', parser, 'a,b,c', ['End of input']);
       success('should match string with three chars separated and ended by comma', parser, 'a,b,c,', [97, 98, 99]);
     });
+
+    t.group('manyTill', () {
+      Parser parser = manyTill(oneOf('abc'), char('!'));
+      success('should match only end parser', parser, '!', []);
+      success('should match one base parser', parser, 'a!', [97]);
+      success('should match three base parsers', parser, 'abc!', [97, 98, 99]);
+      expected('should fail on other chars', parser, 'd!', ['!', '[abc]', '[abc]*!']);
+      parser = string("<!--") & manyTill(anyChar, try1(string("-->")));
+      success('should pass complex test', parser, '<!--comment-->', ['<!--', [99, 111, 109, 109, 101, 110, 116]]);
+    });
   });
 
   t.group('Parser operator', () {

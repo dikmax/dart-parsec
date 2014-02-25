@@ -12,6 +12,7 @@ part 'src/parsers/EndByParser.dart';
 part 'src/parsers/EofParser.dart';
 part 'src/parsers/FollowerByParser.dart';
 part 'src/parsers/ManyParser.dart';
+part 'src/parsers/ManyTillParser.dart';
 part 'src/parsers/MapParser.dart';
 part 'src/parsers/ReturnParser.dart';
 part 'src/parsers/Parser.dart';
